@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Drawing;
+using System.Xml.Linq;
+using System.Runtime.InteropServices;
 
 namespace BlokusGUI {
 
@@ -27,12 +30,15 @@ namespace BlokusGUI {
     /// シングルトンパターンを適用
     /// </summary>
     class Game {
-        private static Game _instace = new Game();      // 唯一のインスタンス
-
+        private static Game _instance = new Game();      // 唯一のインスタンス
+        private Board _board = Board.GetInstance();     // ボードのインスタンス
         public int NumPlayers { get; private set; }     // プレイヤー数
         public List<Player> Players { get; private set; }       // プレイヤー情報
         public int TurnPlayer { get; private set; }     // 現在のプレイヤー
         public int AlivePlayers { get; private set; }   // プレイ中の人数
+        public List<int> PlayerRank { get; set; } = new List<int>();
+        public List<int> Scores { get; set; }
+        public List<int> Records { get; set; }
 
         /// <summary>
         /// コンストラクタ
@@ -45,7 +51,7 @@ namespace BlokusGUI {
         /// </summary>
         /// <returns>インスタンス</returns>
         public static Game GetInstance() {
-            return _instace;
+            return _instance;
         }
 
         /// <summary>
@@ -83,11 +89,41 @@ namespace BlokusGUI {
             }
         }
 
+        public void CalculateScore()
+        {
+            Scores = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1 };
+            Records = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1 };
+            for (var i = 0; i < NumPlayers; i++) // to solve point == 0 bug
+            {
+                Scores[i] = 0;
+                Records[i] = 0;
+            }
+            for (var y = 0; y < _board.BoardSize; y++)
+            {
+                for (var x = 0; x < _board.BoardSize; x++)
+                {
+                    if (_board.Cell[y, x] >= 0 && _board.Cell[y, x] < NumPlayers)
+                    {
+                        Scores[_board.Cell[y, x]] += 1;
+                        Records[_board.Cell[y, x]] += 1;
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// ゲーム終了
         /// </summary>
         private void GameOver() {
-
+            CalculateScore();
+            for (var i = 0;i < NumPlayers;i++)
+            {
+                PlayerRank.Add(Records.IndexOf(Records.Max()));
+                Records[Records.IndexOf(Records.Max())] = -1;
+            }
+            var _gameover = new GameOver();
+            _gameover.ShowDialog();
+            
         }
 
         /// <summary>

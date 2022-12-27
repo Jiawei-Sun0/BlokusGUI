@@ -24,7 +24,7 @@ namespace BlokusGUI {
     /// シングルトンパターンを適用
     /// </summary>
     class Pieces {
-        private static Pieces _instace = new Pieces();    // 唯一のインスタンス
+        private static Pieces _instance = new Pieces();    // 唯一のインスタンス
 
         private List<List<Pos>> _pieces = new List<List<Pos>>();
 
@@ -60,7 +60,7 @@ namespace BlokusGUI {
         /// </summary>
         /// <returns>インスタンス</returns>
         public static Pieces GetInstance() {
-            return _instace;
+            return _instance;
         }
 
         /// <summary>

@@ -63,7 +63,8 @@ namespace BlokusGUI {
         }
 
         private void Giveup(object sender, EventArgs e) {
-
+            _game.GiveUp();
+            this.UpdateController();
         }
         private void Key_Down(object sender, KeyEventArgs e) {
             if (_hold < 0 || _hold >= _pieces.NumPieces())

@@ -114,7 +114,7 @@ namespace BlokusGUI {
             this.UpdownBoardSize.TabIndex = 4;
             this.UpdownBoardSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpdownBoardSize.Value = new decimal(new int[] {
-            11,
+            15,
             0,
             0,
             0});
@@ -131,6 +131,7 @@ namespace BlokusGUI {
             this.Controls.Add(this.label1);
             this.Controls.Add(this.UpdownPlayers);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Location = new System.Drawing.Point(1500, 1000);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormGameSetup";

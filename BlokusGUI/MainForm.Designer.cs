@@ -54,11 +54,12 @@ namespace BlokusGUI {
             // 
             // button1
             // 
+            this.button1.Font = new System.Drawing.Font("MV Boli", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(12, 644);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(161, 36);
             this.button1.TabIndex = 3;
-            this.button1.Text = "降参";
+            this.button1.Text = "Nowhere to place";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Giveup);
             // 
@@ -70,6 +71,8 @@ namespace BlokusGUI {
             this.Controls.Add(this.button1);
             this.Controls.Add(this.PicPlayerLabel);
             this.Controls.Add(this.pictureBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Location = new System.Drawing.Point(1000, 1000);
             this.Name = "MainForm";
             this.Text = "BlokusGUI";
             this.Load += new System.EventHandler(this.MainForm_Load);

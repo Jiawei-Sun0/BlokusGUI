@@ -17,7 +17,7 @@ namespace BlokusGUI {
             Brushes.DodgerBlue, Brushes.OrangeRed, Brushes.ForestGreen, Brushes.DarkViolet,
             Brushes.Peru, Brushes.Gold, Brushes.Turquoise, Brushes.HotPink};    // プレイヤーの色
 
-        private static Board _instace = new Board();    // 唯一のインスタンス
+        private static Board _instance = new Board();    // 唯一のインスタンス
 
         public int BoardSize { get; private set; } = 0; // ボードのマス数
         public int[,] Cell { get; private set; }        // [y,x]位置のマスの状態 -1:無　0-7:プレイヤーマス
@@ -36,7 +36,7 @@ namespace BlokusGUI {
         /// </summary>
         /// <returns>インスタンス</returns>
         public static Board GetInstance() {
-            return _instace;
+            return _instance;
         }
 
         /// <summary>
