@@ -37,7 +37,7 @@ namespace BlokusGUI {
         public int TurnPlayer { get; private set; }     // 現在のプレイヤー
         public int AlivePlayers { get; private set; }   // プレイ中の人数
         public List<int> PlayerRank { get; set; } = new List<int>();
-        public List<int> Scores { get; set; }
+        public List<int> Scores { get; set; } = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
         public List<int> Records { get; set; }
 
         /// <summary>
@@ -74,6 +74,7 @@ namespace BlokusGUI {
         /// <param name="piece">ピース番号</param>
         public void SetPiece(int piece) {
             Players[TurnPlayer].PiecesUsed[piece] = true;
+            CalculateScore();
             this.SwitchPlayer();
         }
 

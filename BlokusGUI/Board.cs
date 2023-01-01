@@ -16,7 +16,9 @@ namespace BlokusGUI {
         public Brush[] PieceColors = {
             Brushes.DodgerBlue, Brushes.OrangeRed, Brushes.ForestGreen, Brushes.DarkViolet,
             Brushes.Peru, Brushes.Gold, Brushes.Turquoise, Brushes.HotPink};    // プレイヤーの色
-
+        public Color[] ScoreColors = {
+            Color.DodgerBlue, Color.OrangeRed, Color.ForestGreen, Color.DarkViolet,
+            Color.Peru, Color.Gold, Color.Turquoise, Color.HotPink};
         private static Board _instance = new Board();    // 唯一のインスタンス
 
         public int BoardSize { get; private set; } = 0; // ボードのマス数

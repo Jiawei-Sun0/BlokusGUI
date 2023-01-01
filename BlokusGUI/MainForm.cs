@@ -18,6 +18,7 @@ namespace BlokusGUI {
         private int _hold = -1;                         // ピースの選択状態
         private int _rotate = 0;
         private PointF _mousePos = new PointF(-1, -1);  // マウス位置（pictureBox内相対位置）
+        private Label[] _scorelist;
 
         /// <summary>
         /// コンストラクタ
@@ -47,6 +48,22 @@ namespace BlokusGUI {
                 _pieceButtons[i].Tag = i;
                 _pieceButtons[i].Click += new EventHandler(this.PieceButton_Click);
             }
+
+            _scorelist = new Label[_game.NumPlayers];
+            for (var i = 0; i < _game.NumPlayers; i++)
+            {
+                _scorelist[i] = new Label
+                {
+                    Location = new Point(866, 60 + 30 * i),
+                    Font = new Font("MS UI Gothic", 15),
+                    Size = new Size(200, 30),
+                    ForeColor = _board.ScoreColors[i],
+                    Text = $"Player {i + 1}: {_game.Scores[i]}"
+                };
+                Debug.WriteLine($"{_game.PlayerRank.Count()}");
+                _scorelist[i].Tag = i;
+            }
+            this.Controls.AddRange(_scorelist);
 
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(this.Key_Down);
@@ -146,6 +163,17 @@ namespace BlokusGUI {
             for (var i = 0; i < _pieces.NumPieces(); i++) {
                 _pieceButtons[i].Enabled = !_game.Players[_game.TurnPlayer].PiecesUsed[i];
             }
+
+            for (var i = 0; i < _game.NumPlayers; i++)
+            {
+                if (_game.Players[i].Alive == false)
+                {
+                    _scorelist[i].Text = $"Player {i + 1}: {_game.Scores[i]} ×";
+                    continue;
+                }
+                _scorelist[i].Text = $"Player {i + 1}: {_game.Scores[i]}";
+            }
+
         }
 
         private void PicPlayerLabel_Click(object sender, EventArgs e)
@@ -156,6 +184,11 @@ namespace BlokusGUI {
         private void MainForm_Load(object sender, EventArgs e)
         {
             //_pieces.GetShape(_hold).ForEach(p => Debug.WriteLine($"key:{p.X},{p.Y}"));
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

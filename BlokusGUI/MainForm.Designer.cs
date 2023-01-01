@@ -27,6 +27,8 @@ namespace BlokusGUI {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PicPlayerLabel = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicPlayerLabel)).BeginInit();
             this.SuspendLayout();
@@ -63,11 +65,34 @@ namespace BlokusGUI {
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Giveup);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 16F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(866, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(178, 22);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Current Points";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 16F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Location = new System.Drawing.Point(926, 316);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 22);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Time";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 692);
+            this.ClientSize = new System.Drawing.Size(1056, 692);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.PicPlayerLabel);
             this.Controls.Add(this.pictureBox1);
@@ -79,6 +104,7 @@ namespace BlokusGUI {
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicPlayerLabel)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -86,6 +112,8 @@ namespace BlokusGUI {
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox PicPlayerLabel;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
