@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Media;
 
 namespace BlokusGUI
 {
@@ -20,10 +21,13 @@ namespace BlokusGUI
         public GameOver()
         {
             InitializeComponent();
+            Debug.WriteLine(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            SoundPlayer se = new SoundPlayer("../../victory_se.wav");
+            se.Play();
             var bmp = new Bitmap(winnerlabel.Width, winnerlabel.Height);
             var g = Graphics.FromImage(bmp);
             g.FillRectangle(_board.PieceColors[_game.PlayerRank[0]], 0, 0, bmp.Width, bmp.Height);
-            g.DrawString($"Winner: Player {_game.PlayerRank[0] + 1} ! Point: {_game.Scores[_game.PlayerRank[0]]}", new Font("MS UI Gothic", 15), Brushes.White, 3, 3);
+            g.DrawString($"Winner: Player {_game.PlayerRank[0] + 1} ! Point: {_game.Scores[_game.PlayerRank[0]]}", new Font("MV Boli", 13), Brushes.White, 3, 3);
             winnerlabel.Image = bmp;
             winnerlabel.Refresh();
 
@@ -34,9 +38,9 @@ namespace BlokusGUI
                 _labellist[i] = new Label();
                 _labellist[i].Location = new Point(12, 60 + 30 * i);
                 _labellist[i].Size = btnSize;
-                _labellist[i].Font = new Font("MS UI Gothic", 12); 
+                _labellist[i].Font = new Font("MV Boli", 12); 
                 _labellist[i].Text = $"{i+2}位: Player {_game.PlayerRank[i+1] + 1}, Point: {_game.Scores[_game.PlayerRank[i+1]]}";
-                Debug.WriteLine($"{_game.PlayerRank.Count()}");
+                //Debug.WriteLine($"{_game.PlayerRank.Count()}");
                 _labellist[i].Tag = i;
             }
             this.Controls.AddRange(_labellist);

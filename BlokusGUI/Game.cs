@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Xml.Linq;
 using System.Runtime.InteropServices;
+using System.Media;
 
 namespace BlokusGUI {
 
@@ -39,6 +40,7 @@ namespace BlokusGUI {
         public List<int> PlayerRank { get; set; } = new List<int>();
         public List<int> Scores { get; set; } = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
         public List<int> Records { get; set; }
+        public WMPLib.WindowsMediaPlayer bgm = new WMPLib.WindowsMediaPlayer();
 
         /// <summary>
         /// コンストラクタ
@@ -66,6 +68,11 @@ namespace BlokusGUI {
             }
             TurnPlayer = 0;
             AlivePlayers = NumPlayers;
+            bgm.settings.volume = 10;
+            Debug.WriteLine(System.AppDomain.CurrentDomain.BaseDirectory);
+            bgm.URL = System.Configuration.ConfigurationManager.AppSettings["BGM_PATH"];
+            //SoundPlayer bgm = new SoundPlayer("../../bgm.wav");
+            //bgm.PlayLooping();
         }
 
         /// <summary>
@@ -117,6 +124,7 @@ namespace BlokusGUI {
         /// </summary>
         private void GameOver() {
             CalculateScore();
+            bgm.URL = "";
             for (var i = 0;i < NumPlayers;i++)
             {
                 PlayerRank.Add(Records.IndexOf(Records.Max()));

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Media;
 
 namespace BlokusGUI {
     public partial class MainForm : Form {
@@ -25,11 +26,12 @@ namespace BlokusGUI {
         /// </summary>
         public MainForm() {
             InitializeComponent();
-
             // ゲーム条件設定
             var frmSelectPlayers = new FormGameSetup();
             frmSelectPlayers.ShowDialog();
 
+            SoundPlayer se = new SoundPlayer("../../menu_open_se_1.wav");
+            se.Play();
             // 初期化
             _game.Initialize(frmSelectPlayers.NumPlayers);
             _board.Initialize(frmSelectPlayers.BoardSize);
@@ -54,13 +56,14 @@ namespace BlokusGUI {
             {
                 _scorelist[i] = new Label
                 {
-                    Location = new Point(866, 60 + 30 * i),
-                    Font = new Font("MS UI Gothic", 15),
+                    Location = new Point(866, 60 + 50 * i),
+                    Font = new Font("MV Boli", 15),
                     Size = new Size(200, 30),
-                    ForeColor = _board.ScoreColors[i],
+                    BackColor = _board.ScoreColors[i],
+                    ForeColor = Color.Black,
+                    TextAlign = System.Drawing.ContentAlignment.MiddleLeft,
                     Text = $"Player {i + 1}: {_game.Scores[i]}"
                 };
-                Debug.WriteLine($"{_game.PlayerRank.Count()}");
                 _scorelist[i].Tag = i;
             }
             this.Controls.AddRange(_scorelist);
@@ -81,6 +84,8 @@ namespace BlokusGUI {
 
         private void Giveup(object sender, EventArgs e) {
             _game.GiveUp();
+            SoundPlayer se = new SoundPlayer("../../giveup_se_1.wav");
+            se.Play();
             this.UpdateController();
         }
         private void Key_Down(object sender, KeyEventArgs e) {
@@ -137,10 +142,13 @@ namespace BlokusGUI {
                     _game.SetPiece(_hold);
                     _hold = -1;
                     this.Draw();
-                    Console.Beep(1600, 200);
+                    SoundPlayer se = new SoundPlayer("../../setpiece_se_1.wav");
+                    se.Play();
                     this.UpdateController();
                 } else {
-                    Console.Beep(800, 200);
+                    SoundPlayer se = new SoundPlayer("../../wrongplace_se.wav");
+                    se.Play();
+                    //Console.Beep(800, 200);
                 }
             }
             if (((MouseEventArgs)e).Button == MouseButtons.Right) {
@@ -173,21 +181,6 @@ namespace BlokusGUI {
                 }
                 _scorelist[i].Text = $"Player {i + 1}: {_game.Scores[i]}";
             }
-
-        }
-
-        private void PicPlayerLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            //_pieces.GetShape(_hold).ForEach(p => Debug.WriteLine($"key:{p.X},{p.Y}"));
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
 
         }
     }
