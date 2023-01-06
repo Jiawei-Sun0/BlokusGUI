@@ -88,6 +88,7 @@ namespace BlokusGUI {
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Location = new System.Drawing.Point(1000, 1000);
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "BlokusGUI";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

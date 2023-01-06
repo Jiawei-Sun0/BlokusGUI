@@ -28,6 +28,8 @@ namespace BlokusGUI {
 
         private List<List<Pos>> _pieces = new List<List<Pos>>();
 
+        public List<int> Rstatus = new List<int>();
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -53,6 +55,11 @@ namespace BlokusGUI {
             _pieces.Add(new List<Pos>() { new Pos(-1, 1), new Pos(0, 0), new Pos(1, -1) });
             _pieces.Add(new List<Pos>() { new Pos(0, -1), new Pos(0, 0), new Pos(1, 1), new Pos(2, 1) });
             _pieces.Add(new List<Pos>() { new Pos(-1, -1), new Pos(0, 0), new Pos(1, -1), new Pos(2, 0) });
+
+            for(var i = 0; i < _pieces.Count(); i++)
+            {
+                Rstatus.Add(0);
+            }
         }
 
         /// <summary>
@@ -109,17 +116,19 @@ namespace BlokusGUI {
             for (int i = 0; i < _pieces[piece].Count(); i++)
             {
                 var p = _pieces[piece][i];
-                if (type == 1)
-                {
-                    var term = p.X;
-                    p.X = -p.Y;
-                    p.Y = term;
-                }
-                if (type == 0)
+                if (type == 0) // 逆 X,Y -> Y,-X
                 {
                     var term = p.X;
                     p.X = p.Y;
                     p.Y = -term;
+                }else if (type == 1) // 顺 X,Y -> -Y,X
+                {
+                    var term = p.X;
+                    p.X = -p.Y;
+                    p.Y = term;
+                }else if (type == 2) // 反転 X -> -X
+                {
+                    p.X = -p.X;
                 }
                 _pieces[piece][i] = p;
             }

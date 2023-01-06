@@ -20,6 +20,7 @@ namespace BlokusGUI {
         private int _rotate = 0;
         private PointF _mousePos = new PointF(-1, -1);  // マウス位置（pictureBox内相対位置）
         private Label[] _scorelist;
+        private bool reverse = false;
 
         /// <summary>
         /// コンストラクタ
@@ -95,14 +96,40 @@ namespace BlokusGUI {
             }
             else
             {
+                reverse = _pieces.Rstatus[_hold] > 3;
+                int adj = reverse ? 4 : 0;
+                    
                 if (e.KeyCode.ToString() == "A")
                 {
                     _pieces.RotatePiece(_hold, 0);
+                    _pieces.Rstatus[_hold] -= 1;
+                    if(_pieces.Rstatus[_hold] < 0 + adj)
+                    {
+                        _pieces.Rstatus[_hold] += 4;
+                    }
                 }
                 if (e.KeyCode.ToString() == "D")
                 {
                     _pieces.RotatePiece(_hold, 1);
+                    _pieces.Rstatus[_hold] += 1;
+                    if (_pieces.Rstatus[_hold] > 3 + adj)
+                    {
+                        _pieces.Rstatus[_hold] -= 4;
+                    }
                 }
+                if (e.KeyCode.ToString() == "W") // REVERSE PIECE
+                {
+                    _pieces.RotatePiece(_hold, 2);
+                    if (_pieces.Rstatus[_hold] < 4)
+                    {
+                        _pieces.Rstatus[_hold] += 4;
+                    }else if (_pieces.Rstatus[_hold] >= 4)
+                    {
+                        _pieces.Rstatus[_hold] -= 4;
+                    }
+                    
+                }
+                Debug.WriteLine($"{_hold}::{_pieces.Rstatus[_hold]}");
                 return;
             }
             
@@ -114,7 +141,6 @@ namespace BlokusGUI {
         /// <param name="e"></param>
         private void PieceButton_Click(object sender, EventArgs e) {
             _hold = (int)((Button)sender).Tag;
-            _pieces.ResetRotation(_hold);
         }
 
         /// <summary>
@@ -140,6 +166,7 @@ namespace BlokusGUI {
                 if (_board.SetPiece(_game.TurnPlayer, _hold, _mousePos, _game.Players[_game.TurnPlayer].first, _rotate)) {
                     _game.Players[_game.TurnPlayer].first = false;
                     _game.SetPiece(_hold);
+                    _pieces.ResetRotation(_hold);
                     _hold = -1;
                     this.Draw();
                     SoundPlayer se = new SoundPlayer("../../setpiece_se_1.wav");
