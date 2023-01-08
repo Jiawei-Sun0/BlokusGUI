@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Media;
 
-namespace BlokusGUI
+namespace BlokusMod
 {
     public partial class GameOver : Form
     {
@@ -26,7 +26,7 @@ namespace BlokusGUI
             se.Play();
             var bmp = new Bitmap(winnerlabel.Width, winnerlabel.Height);
             var g = Graphics.FromImage(bmp);
-            g.FillRectangle(_board.PieceColors[_game.PlayerRank[0]], 0, 0, bmp.Width, bmp.Height);
+            g.FillRectangle(_board.PieceBrushes[_game.PlayerRank[0]], 0, 0, bmp.Width, bmp.Height);
             g.DrawString($"Winner: Player {_game.PlayerRank[0] + 1} ! Point: {_game.Scores[_game.PlayerRank[0]]}", new Font("MV Boli", 13), Brushes.White, 3, 3);
             winnerlabel.Image = bmp;
             winnerlabel.Refresh();
