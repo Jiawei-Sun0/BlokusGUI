@@ -55,6 +55,7 @@ namespace BlokusMod
         private float _cellSize = 0;    // 描画マスサイズ
         public List<int> Scores { get; set; } = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
         public List<int> Records { get; set; }
+        public List<int> PlayerRank { get; set; } = new List<int>();
         public int BoardSize { get; private set; } = 0; // ボードのマス数
         public int[,] Cell { get; private set; }        // [y,x]位置のマスの状態 -1:無　0-7:プレイヤーマス
 

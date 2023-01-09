@@ -21,13 +21,19 @@ namespace BlokusMod
         public GameOver()
         {
             InitializeComponent();
-            Debug.WriteLine(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+
+            for (var i = 0; i < _game.NumPlayers; i++)
+            {
+                _board.PlayerRank.Add(_board.Records.IndexOf(_board.Records.Max()));
+                _board.Records[_board.Records.IndexOf(_board.Records.Max())] = -1;
+            }
+
             SoundPlayer se = new SoundPlayer("../../victory_se.wav");
             se.Play();
             var bmp = new Bitmap(winnerlabel.Width, winnerlabel.Height);
             var g = Graphics.FromImage(bmp);
-            g.FillRectangle(_board.PieceBrushes[_game.PlayerRank[0]], 0, 0, bmp.Width, bmp.Height);
-            g.DrawString($"Winner: Player {_game.PlayerRank[0] + 1} ! Point: {_game.Scores[_game.PlayerRank[0]]}", new Font("MV Boli", 13), Brushes.White, 3, 3);
+            g.FillRectangle(_board.PieceBrushes[_board.PlayerRank[0]], 0, 0, bmp.Width, bmp.Height);
+            g.DrawString($"Winner: {_game.Players[_board.PlayerRank[0]].Name} ! Point: {_board.Scores[_board.PlayerRank[0]]}", new Font("MV Boli", 12), Brushes.White, 3, 3);
             winnerlabel.Image = bmp;
             winnerlabel.Refresh();
 
@@ -39,7 +45,7 @@ namespace BlokusMod
                 _labellist[i].Location = new Point(12, 60 + 30 * i);
                 _labellist[i].Size = btnSize;
                 _labellist[i].Font = new Font("MV Boli", 12); 
-                _labellist[i].Text = $"{i+2}位: Player {_game.PlayerRank[i+1] + 1}, Point: {_game.Scores[_game.PlayerRank[i+1]]}";
+                _labellist[i].Text = $"{i+2}位: {_game.Players[_board.PlayerRank[i+1]].Name}, Point: {_board.Scores[_board.PlayerRank[i+1]]}";
                 //Debug.WriteLine($"{_game.PlayerRank.Count()}");
                 _labellist[i].Tag = i;
             }
@@ -51,12 +57,8 @@ namespace BlokusMod
         }
         public void Exit(object sender, EventArgs e)
         {
-            System.Environment.Exit(0);
-        }
-
-        private void WindowClosing(object sender, FormClosingEventArgs e)
-        {
-            System.Environment.Exit(0);
+            this.Close();
+            //System.Environment.Exit(0);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace BlokusMod
 {
@@ -28,9 +29,6 @@ namespace BlokusMod
     /// シングルトンパターンを適用
     /// </summary>
     class Game {
-        public List<int> PlayerRank { get; set; } = new List<int>();
-        public List<int> Scores { get; set; } = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
-        public List<int> Records { get; set; }
         public WMPLib.WindowsMediaPlayer bgm = new WMPLib.WindowsMediaPlayer();
         //private Board _board = Board.GetInstance();     // ボードのインスタンス
 
@@ -65,8 +63,6 @@ namespace BlokusMod
         /// <param name="numPlayers">プレイヤー数</param>
         public void Initialize(int numPlayers, int[] ids = null, string[] names = null, bool shuffle = false)
         {
-            Scores = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1 };
-            Records = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1 };
             NumPlayers = numPlayers;
             Players = new List<Player>();
             for (var i = 0; i < NumPlayers; i++)
@@ -88,6 +84,8 @@ namespace BlokusMod
             {
                 Turn = 0;
             }
+            bgm.settings.volume = 10;
+            bgm.URL = System.Configuration.ConfigurationManager.AppSettings["BGM_PATH"];
         }
 
         /// <summary>
@@ -203,7 +201,7 @@ namespace BlokusMod
         //}
         private void GameOver()
         {
-
+            bgm.URL = "";
         }
     }
 }

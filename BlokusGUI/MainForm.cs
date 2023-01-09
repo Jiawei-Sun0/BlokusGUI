@@ -187,10 +187,10 @@ namespace BlokusMod
             {
                 if (_game.Players[i].Alive == false)
                 {
-                    _scorelist[i].Text = $"Player {i + 1}: {_game.Scores[i]} ×";
+                    _scorelist[i].Text = $"Player {i + 1}: {_board.Scores[i]} ×";
                     continue;
                 }
-                _scorelist[i].Text = $"Player {i + 1}: {_game.Scores[i]}";
+                _scorelist[i].Text = $"Player {i + 1}: {_board.Scores[i]}";
             }
 
         }
@@ -239,7 +239,9 @@ namespace BlokusMod
             }
             if (_client.State == States.Playing)
                 ScoreUpdate();
-            
+            if (_client.State == States.Gameover)
+                foreach (Label l in _scorelist)
+                    l.Dispose();
 
             // ヘッダー表示
             var name = _game.Players == null ? "" : (_client.IsMyTurn ? "あなた" : _game.Players[_game.TurnPlayer].Name);

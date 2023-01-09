@@ -142,6 +142,8 @@ namespace BlokusMod
                             _winIDs = receiveStr.Substring(9).Split(',').Select(c => int.Parse(c)).ToList();
                             State = States.Gameover;
                             _clientForm.UpdateForm();
+                            var _gameover = new GameOver();
+                            _gameover.ShowDialog();
                         }
                     } else {
                         this.Message($"サーバー切断");
