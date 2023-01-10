@@ -161,44 +161,6 @@ namespace BlokusMod
             }
             return list;
         }
-
-        //public void CalculateScore()
-        //{
-        //    Scores = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1 };
-        //    Records = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1 };
-        //    for (var i = 0; i < NumPlayers; i++) // to solve point == 0 bug
-        //    {
-        //        Scores[i] = 0;
-        //        Records[i] = 0;
-        //    }
-        //    for (var y = 0; y < _board.BoardSize; y++)
-        //    {
-        //        for (var x = 0; x < _board.BoardSize; x++)
-        //        {
-        //            if (_board.Cell[y, x] >= 0 && _board.Cell[y, x] < NumPlayers)
-        //            {
-        //                Scores[_board.Cell[y, x]] += 1;
-        //                Records[_board.Cell[y, x]] += 1;
-        //            }
-        //        }
-        //    }
-        //}
-        ///// <summary>
-        ///// ゲーム終了
-        ///// </summary>
-        //private void GameOver()
-        //{
-        //    CalculateScore();
-        //    bgm.URL = "";
-        //    for (var i = 0; i < NumPlayers; i++)
-        //    {
-        //        PlayerRank.Add(Records.IndexOf(Records.Max()));
-        //        Records[Records.IndexOf(Records.Max())] = -1;
-        //    }
-        //    //var _gameover = new GameOver();
-        //    //_gameover.ShowDialog();
-
-        //}
         private void GameOver()
         {
             bgm.URL = "";
