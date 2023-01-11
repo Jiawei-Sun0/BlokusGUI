@@ -267,7 +267,6 @@ namespace BlokusMod
                     TxtHeader.Text = $"ゲーム終了：{_client.WinnersName()}の勝利";
                     break;
             }
-            
         }
         private void BtnConnect_Click(object sender, EventArgs e)
         {
@@ -339,6 +338,7 @@ namespace BlokusMod
                     BackColor = _board.PieceColors[i],
                     ForeColor = Color.Black,
                     TextAlign = System.Drawing.ContentAlignment.MiddleLeft,
+                    Anchor = AnchorStyles.Right | AnchorStyles.Top
                 };
             }
             this.Controls.AddRange(_scorelist);
