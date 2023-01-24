@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Threading;
+using Python.Runtime;
+using System.IO;
+using System.Diagnostics;
 
 namespace BlokusMod
 {
@@ -13,11 +16,14 @@ namespace BlokusMod
         private Game _game = Game.GetInstance();        // ゲームのインスタンス
         private Board _board = Board.GetInstance();     // ボードのインスタンス
         private Client _client = Client.GetInstance();  // クライアントのインスタンス
+        private SetInfo si = new SetInfo(0, 0, 0);
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         private Cpu() {
+            Debug.WriteLine("cpu init.");
+            //myCPU();
         }
 
         /// <summary>
@@ -43,7 +49,7 @@ namespace BlokusMod
                     for (var y = 0; y < _board.BoardSize; y++) {
                         var pos = new Point(x, y);
                         foreach (var r in rotateList) {
-                            var si = new SetInfo(piece, r, pos);
+                            si = new SetInfo(piece, r, pos);
                             if (_board.CheckPlace(_game.Turn, si)) {
                                 _board.SetPiece(_game.Turn, si);
                                 _client.IsMyChoice = false;
@@ -58,6 +64,41 @@ namespace BlokusMod
             _client.GiveUp();
         }
 
+        public void myCPU()
+        {
+            var PYTHON_HOME = Environment.ExpandEnvironmentVariables(@"C:\Users\sunjiawei\AppData\Local\Programs\Python\Python38");
+            AddEnvPath(
+              PYTHON_HOME,
+              Path.Combine(@"C:\Users\sunjiawei\source\repos\BlokusGUI\BlokusGUI")
+            );
+
+            PythonEngine.PythonHome = PYTHON_HOME;
+            //Console.WriteLine($"西巴老马：{PythonEngine.PythonPath}");
+            using (Py.GIL())
+            {
+                dynamic sys = Py.Import("sys");
+                sys.path.append(@"C:\Users\sunjiawei\source\repos\BlokusGUI\BlokusGUI");
+                dynamic cpu = Py.Import("cpuAI");
+                Console.WriteLine(cpu.check(_board,si));
+            }
+        }
+        public static void AddEnvPath(params string[] paths)
+        {
+            var envPaths = Environment.GetEnvironmentVariable("PATH").Split(Path.PathSeparator).ToList();
+            foreach (var path in paths)
+            {
+                if (path.Length > 0 && !envPaths.Contains(path))
+                {
+                    envPaths.Insert(0, path);
+                }
+            }
+            Environment.SetEnvironmentVariable("PATH", string.Join(Path.PathSeparator.ToString(), envPaths), EnvironmentVariableTarget.Process);
+        }
+
+        public string test()
+        {
+            return "i am stirng from c#......";
+        }
         /// <summary>
         /// 配列をシャッフル
         /// </summary>

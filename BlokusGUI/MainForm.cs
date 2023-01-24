@@ -65,8 +65,8 @@ namespace BlokusMod
             var rnd = new Random();
             var name = "";
             for (int i = 0; i < 4; i++) name += Convert.ToChar(0x3041 + (rnd.Next() % 80)).ToString();
-            TxtName.Text = name;    // 人が操作
-            //TxtName.Text = "CPU" + name;    // CPU操作
+            //TxtName.Text = name;    // 人が操作
+            TxtName.Text = "CPU" + name;    // CPU操作
 #endif
         }  
         private void Key_Down(object sender, KeyEventArgs e) {
@@ -228,7 +228,8 @@ namespace BlokusMod
                 }
                 if (_client.IsMyTurn && _userMode > 0)
                 {
-                    Cpu.GetInstance().Turn();
+                    //Cpu.GetInstance().Turn();
+                    Cpu.GetInstance().myCPU();
                 }
             }
             this.Draw();
@@ -322,7 +323,7 @@ namespace BlokusMod
                     continue;
                 }
                 _scorelist[i].Text = $"{_game.Players[i].Name}: {_board.Scores[i]}";
-                Debug.WriteLine($"ss{i}:{_board.Scores[i]}");
+                //Debug.WriteLine($"ss{i}:{_board.Scores[i]}");
             }
         }
         public void CreateScoreList()

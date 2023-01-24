@@ -191,6 +191,7 @@ namespace BlokusMod
         /// <param name="piece">ピース</param>
         /// <param name="pos">マスの位置</param>
         /// <returns>true: 有効な場所 false: 無効な場所</returns>
+        /// 
         public bool CheckPlace(int player, SetInfo si)
         {
             // 値検証
@@ -231,7 +232,7 @@ namespace BlokusMod
             //Debug.WriteLine("自マスと角で接なし");
             return false;
         }
-
+        
         /// <summary>
         /// ピースを置く（ピース指定）
         /// </summary>
