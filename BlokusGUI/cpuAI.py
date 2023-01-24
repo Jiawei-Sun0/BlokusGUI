@@ -1,7 +1,6 @@
 import clr
 from System import String
 from System.Collections import *
-from System.Drawing import Point
 
 def check(_board,si):
     si.Piece = 10
