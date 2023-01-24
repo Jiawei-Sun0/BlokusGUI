@@ -96,7 +96,7 @@ namespace BlokusMod
             {
                 for (int x = 0; x <= maxX; x++)
                 {
-                    shape += grid[y, x] ? "■" : "□";
+                    shape += grid[y, x] ? "■" : " 　";
                 }
                 shape += "\n";
             }
