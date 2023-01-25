@@ -15,9 +15,9 @@ namespace BlokusMod
     public class SetInfo
     {
         private readonly int BOARD_SIZE = Board.GetInstance().BoardSize;
-        public int Piece { get; private set; }
-        public int Rotate { get; private set; }
-        public Point Cell { get; private set; }
+        public int Piece { get; set; }
+        public int Rotate { get; set; }
+        public Point Cell { get; set; }
         public int Pos { get { return Cell.Y * BOARD_SIZE + Cell.X; } }
         public SetInfo(int piece, int rotate, Point cell)
         {

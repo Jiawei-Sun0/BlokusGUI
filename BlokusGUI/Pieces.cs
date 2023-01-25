@@ -102,5 +102,9 @@ namespace BlokusMod
             }
             return shape;
         }
+        public int GetCellsNum()
+        {
+            return _cells.Count();
+        }
     }
 }

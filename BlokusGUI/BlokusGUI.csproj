@@ -166,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="client.ico" />
+    <Content Include="cpuAI.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

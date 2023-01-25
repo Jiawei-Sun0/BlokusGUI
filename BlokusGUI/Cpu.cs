@@ -16,13 +16,20 @@ namespace BlokusMod
         private Game _game = Game.GetInstance();        // ゲームのインスタンス
         private Board _board = Board.GetInstance();     // ボードのインスタンス
         private Client _client = Client.GetInstance();  // クライアントのインスタンス
-        private SetInfo si = new SetInfo(0, 0, 0);
+        private SetInfo sinfo = new SetInfo(0, 0, new Point(0,0));
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         private Cpu() {
             Debug.WriteLine("cpu init.");
+            var PYTHON_HOME = Environment.ExpandEnvironmentVariables(@"C:\Users\sunjiawei\AppData\Local\Programs\Python\Python38");
+            AddEnvPath(
+              PYTHON_HOME,
+              Path.Combine(@"C:\Users\sunjiawei\source\repos\BlokusGUI\BlokusGUI")
+            );
+            PythonEngine.PythonHome = PYTHON_HOME;
+            //Console.WriteLine($"西巴老马：{PythonEngine.PythonPath}");
             //myCPU();
         }
 
@@ -49,7 +56,7 @@ namespace BlokusMod
                     for (var y = 0; y < _board.BoardSize; y++) {
                         var pos = new Point(x, y);
                         foreach (var r in rotateList) {
-                            si = new SetInfo(piece, r, pos);
+                            var si = new SetInfo(piece, r, pos);
                             if (_board.CheckPlace(_game.Turn, si)) {
                                 _board.SetPiece(_game.Turn, si);
                                 _client.IsMyChoice = false;
@@ -66,20 +73,14 @@ namespace BlokusMod
 
         public void myCPU()
         {
-            var PYTHON_HOME = Environment.ExpandEnvironmentVariables(@"C:\Users\sunjiawei\AppData\Local\Programs\Python\Python38");
-            AddEnvPath(
-              PYTHON_HOME,
-              Path.Combine(@"C:\Users\sunjiawei\source\repos\BlokusGUI\BlokusGUI")
-            );
-
-            PythonEngine.PythonHome = PYTHON_HOME;
-            //Console.WriteLine($"西巴老马：{PythonEngine.PythonPath}");
+            var rotateList = Shuffle(Enumerable.Range(0, 8).ToArray());
             using (Py.GIL())
             {
                 dynamic sys = Py.Import("sys");
                 sys.path.append(@"C:\Users\sunjiawei\source\repos\BlokusGUI\BlokusGUI");
                 dynamic cpu = Py.Import("cpuAI");
-                Console.WriteLine(cpu.check(_board,si));
+                Console.WriteLine(cpu.CpuStep(_client, _board, _game, sinfo, rotateList));
+                //Console.WriteLine(cpu.test(sinfo));
             }
         }
         public static void AddEnvPath(params string[] paths)
@@ -93,11 +94,6 @@ namespace BlokusMod
                 }
             }
             Environment.SetEnvironmentVariable("PATH", string.Join(Path.PathSeparator.ToString(), envPaths), EnvironmentVariableTarget.Process);
-        }
-
-        public string test()
-        {
-            return "i am stirng from c#......";
         }
         /// <summary>
         /// 配列をシャッフル
