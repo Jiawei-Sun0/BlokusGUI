@@ -15,9 +15,9 @@ namespace BlokusMod
     public class SetInfo
     {
         private readonly int BOARD_SIZE = Board.GetInstance().BoardSize;
-        public int Piece { get; set; }
-        public int Rotate { get; set; }
-        public Point Cell { get; set; }
+        public int Piece { get; private set; }
+        public int Rotate { get; private set; }
+        public Point Cell { get; private set; }
         public int Pos { get { return Cell.Y * BOARD_SIZE + Cell.X; } }
         public SetInfo(int piece, int rotate, Point cell)
         {
@@ -51,7 +51,7 @@ namespace BlokusMod
         private static Board _instace = new Board();    // 唯一のインスタンス
         private Game _game = Game.GetInstance();        // ゲームのインスタンス
         public List<Piece> Pieces { get; private set; } = new List<Piece>();    // ピース定義
-        private List<Point> _startPoint = new List<Point>();    // プレイヤーの開始マス
+        public List<Point> _startPoint { get; private set; } = new List<Point>();    // プレイヤーの開始マス
         private float _cellSize = 0;    // 描画マスサイズ
         public List<int> Scores { get; set; } = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0 };
         public List<int> Records { get; set; }

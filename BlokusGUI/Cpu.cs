@@ -16,7 +16,6 @@ namespace BlokusMod
         private Game _game = Game.GetInstance();        // ゲームのインスタンス
         private Board _board = Board.GetInstance();     // ボードのインスタンス
         private Client _client = Client.GetInstance();  // クライアントのインスタンス
-        private SetInfo sinfo = new SetInfo(0, 0, new Point(0,0));
 
         /// <summary>
         /// コンストラクタ
@@ -47,7 +46,7 @@ namespace BlokusMod
         public void Turn() {
             if (!_client.IsMyChoice) return;
 
-            var pieceList = new int[] { 15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0 };
+            var pieceList = new int[] { 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0 };
             var rotateList = Shuffle(Enumerable.Range(0, 8).ToArray());
 
             foreach (var piece in pieceList) {
@@ -79,7 +78,7 @@ namespace BlokusMod
                 dynamic sys = Py.Import("sys");
                 sys.path.append(@"C:\Users\sunjiawei\source\repos\BlokusGUI\BlokusGUI");
                 dynamic cpu = Py.Import("cpuAI");
-                Console.WriteLine(cpu.CpuStep(_client, _board, _game, sinfo, rotateList));
+                Console.WriteLine(cpu.CpuStep(_client, _board, _game, rotateList));
                 //Console.WriteLine(cpu.test(sinfo));
             }
         }

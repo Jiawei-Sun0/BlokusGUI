@@ -155,6 +155,7 @@ namespace BlokusMod
                     _client.SetPiece(si);
                     _hold = -1;
                     SoundPlayer se = new SoundPlayer("../../setpiece_se_1.wav");
+                    Console.WriteLine(System.Environment.CurrentDirectory);
                     se.Play();
                     //this.UpdateController();
                 } else {
@@ -231,6 +232,11 @@ namespace BlokusMod
                     //Cpu.GetInstance().Turn();
                     Cpu.GetInstance().myCPU();
                 }
+                if (_client.IsMyTurn && _userMode == -1)
+                {
+                    Cpu.GetInstance().Turn();
+                    //Cpu.GetInstance().myCPU();
+                }
             }
             this.Draw();
             if (_client.State == States.Preplaying)
@@ -277,6 +283,8 @@ namespace BlokusMod
                 return;
             }
             _userMode = TxtName.Text.StartsWith("cpu", StringComparison.InvariantCultureIgnoreCase) ? 1 : 0;
+            if (TxtName.Text.StartsWith("af", StringComparison.InvariantCultureIgnoreCase))
+                _userMode = -1;
             _client.StartClient(TxtServer.Text, TxtName.Text);
             this.UpdateForm();
         }
