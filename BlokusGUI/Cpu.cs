@@ -22,10 +22,10 @@ namespace BlokusMod
         /// </summary>
         private Cpu() {
             Debug.WriteLine("cpu init.");
-            var PYTHON_HOME = Environment.ExpandEnvironmentVariables(@"C:\Users\sunjiawei\AppData\Local\Programs\Python\Python38");
+            var PYTHON_HOME = Environment.ExpandEnvironmentVariables(@"D:\Python\Python38");
             AddEnvPath(
               PYTHON_HOME,
-              Path.Combine(@"C:\Users\sunjiawei\source\repos\BlokusGUI\BlokusGUI")
+              Path.Combine(@"D:\CODE\C++\BlokusGUI\BlokusGUI")
             );
             PythonEngine.PythonHome = PYTHON_HOME;
             //Console.WriteLine($"西巴老马：{PythonEngine.PythonPath}");
@@ -76,7 +76,7 @@ namespace BlokusMod
             using (Py.GIL())
             {
                 dynamic sys = Py.Import("sys");
-                sys.path.append(@"C:\Users\sunjiawei\source\repos\BlokusGUI\BlokusGUI");
+                sys.path.append(@"D:\CODE\C++\BlokusGUI\BlokusGUI");
                 dynamic cpu = Py.Import("cpuAI");
                 Console.WriteLine(cpu.CpuStep(_client, _board, _game, rotateList));
                 //Console.WriteLine(cpu.test(sinfo));

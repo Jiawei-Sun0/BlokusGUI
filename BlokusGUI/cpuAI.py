@@ -2,7 +2,7 @@ import clr
 from math import *
 import sys
 import time
-sys.path.append("C:\\Users\\sunjiawei\\source\\repos\\BlokusGUI\\BlokusGUI")
+sys.path.append("D:\CODE\C++\BlokusGUI\BlokusGUI")
 from BlokusMod import SetInfo
 from System import String
 from System.Collections import *
@@ -29,8 +29,8 @@ def CpuStep(client,board,game,rotateList):
         for x in range(board.BoardSize):
             for y in range(board.BoardSize):
                 pos = Point(x,y)
-                distance = sqrt(pow(board._startPoint[game.TurnPlayer].X-x,2)+pow(board._startPoint[game.TurnPlayer].Y-y,2))
-                target = Point((int)(board.BoardSize/2), (int)(board.BoardSize/2))
+                distance = sqrt(pow(board._startPoint[game.TurnPlayer].X-x,2)+pow(board._startPoint[game.TurnPlayer].Y-y,2)) # distance from startpoint
+                target = Point((int)(board.BoardSize/2), (int)(board.BoardSize/2)) # select the strategy according to the position
                 if distance > board.BoardSize/2 and distance < 1.6*board.BoardSize/2:
                     target = board._startPoint[game.TurnPlayer]
                 elif distance < board.BoardSize:
@@ -41,9 +41,9 @@ def CpuStep(client,board,game,rotateList):
                         giveup = False
                         score = 0
                         score += 5 * (1 - sqrt(pow(target.X-x,2)+pow(target.Y-y,2)) / (sqrt(2) * board.BoardSize/2) ) # distance from target.
-                        score += board.Pieces[piece].GetCellsNum()*1.3
+                        score += board.Pieces[piece].GetCellsNum()*1.3 # use big piece first
                         blocked = []
-                        for point in board.Pieces[piece].Cells(r):
+                        for point in board.Pieces[piece].Cells(r): # how many routes can be blocked. 
                             p = Point(point.X + x, point.Y + y)
                             edges = [ Point(1, 0), Point(-1, 0), Point(0, 1), Point(0, -1) ]
                             corners = [ Point(1, 1), Point(-1, 1), Point(-1, -1), Point(1, -1) ]
@@ -55,7 +55,7 @@ def CpuStep(client,board,game,rotateList):
                                 if cx >= 0 and cx < board.BoardSize and cy >= 0 and cy < board.BoardSize \
                                 and board.Cell[cy, cx] != -1 and board.Cell[cy, cx] != game.TurnPlayer:
                                     color = board.Cell[cy, cx]
-                                    edgeCount = 0
+                                    edgeCount = 0 # do pieces around the cell is in opposite places?
                                     if cx >=0 and cx < board.BoardSize and cy+1 >=0 and cy+1 < board.BoardSize and board.Cell[cy + 1, cx] == board.Cell[cy, cx]:
                                         edgeCount += 1
                                     if cx >=0 and cx < board.BoardSize and cy-1 >=0 and cy-1 < board.BoardSize and board.Cell[cy - 1, cx] == board.Cell[cy, cx]:
@@ -70,7 +70,7 @@ def CpuStep(client,board,game,rotateList):
 
                                     if edgeCount <= 1:
                                         block = True
-                            for edge in edges:
+                            for edge in edges: # does the cell is near by other players' pieces?
                                 cx = p.X+edge.X
                                 cy = p.Y+edge.Y
                                 if cx >=0 and cx < board.BoardSize and cy >=0 and cy < board.BoardSize and board.Cell[cy, cx] == color: # meaningless block.
@@ -87,11 +87,11 @@ def CpuStep(client,board,game,rotateList):
     endTime = time.time()
     if giveup == True:
         client.GiveUp()
-        return f"{game.TurnPlayer} giveup"
+        return f"PLAYER:{game.TurnPlayer} giveup"
     elif giveup == False:
         # set best piece.
         board.SetPiece(game.Turn,best)
         client.IsMyChoice = False
         game.SetPiece(best)
         client.SetPiece(best)
-        return f"player{game.TurnPlayer} p:{best.Piece} r:{best.Rotate} x:{best.Cell.X} y:{best.Cell.Y} target:{endTime - startTime} placed len:{jkjk} score:{score}"
+        return f"PLAYER{game.TurnPlayer}--p:{best.Piece} r:{best.Rotate} x:{best.Cell.X} y:{best.Cell.Y}--TIME:{endTime - startTime} Blocked:{jkjk} Score:{score}"
