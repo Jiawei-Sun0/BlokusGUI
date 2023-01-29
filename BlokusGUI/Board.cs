@@ -37,7 +37,7 @@ namespace BlokusMod
     /// ボード（盤）クラス
     /// シングルトンパターンを適用
     /// </summary>
-    class Board
+    public class Board
     {
         private const int BOARD_IMG_SIZE = 600; // ボード画像サイズ
         private const int MARGIN = 5;      // ボード周囲の幅
@@ -57,12 +57,12 @@ namespace BlokusMod
         public List<int> Records { get; set; }
         public List<int> PlayerRank { get; set; } = new List<int>();
         public int BoardSize { get; private set; } = 0; // ボードのマス数
-        public int[,] Cell { get; private set; }        // [y,x]位置のマスの状態 -1:無　0-7:プレイヤーマス
+        public int[,] Cell { get; set; }        // [y,x]位置のマスの状態 -1:無　0-7:プレイヤーマス
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        private Board()
+        public Board()
         {
             // ピースの定義
             Pieces.Add(new Piece(new List<Point>() { new Point(0, 0) }));   // 0
@@ -86,7 +86,6 @@ namespace BlokusMod
             Pieces.Add(new Piece(new List<Point>() { new Point(0, -1), new Point(0, 0), new Point(1, 1), new Point(2, 1) }));   // 18
             Pieces.Add(new Piece(new List<Point>() { new Point(1, -1), new Point(0, 0), new Point(1, 1), new Point(0, 2) }));   // 19
         }
-
         /// <summary>
         /// 唯一のインスタンス取得
         /// </summary>

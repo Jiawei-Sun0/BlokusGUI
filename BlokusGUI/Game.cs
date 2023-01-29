@@ -9,7 +9,7 @@ namespace BlokusMod
     /// <summary>
     /// プレイヤークラス
     /// </summary>
-    class Player {
+    public class Player {
         public bool Alive { get; set; } = true;     // true: プレイ中  false: 降参
         public List<bool> PiecesUsed { get; set; }  // true: 使用済みピース  false: 未使用
         public int ID { get; private set; }
@@ -28,7 +28,7 @@ namespace BlokusMod
     /// ゲームクラス
     /// シングルトンパターンを適用
     /// </summary>
-    class Game {
+    public class Game {
         public WMPLib.WindowsMediaPlayer bgm = new WMPLib.WindowsMediaPlayer();
         //private Board _board = Board.GetInstance();     // ボードのインスタンス
 

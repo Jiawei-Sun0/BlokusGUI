@@ -3,15 +3,10 @@ from math import *
 import sys
 import time
 sys.path.append("D:\CODE\C++\BlokusGUI\BlokusGUI")
-from BlokusMod import SetInfo
+from BlokusMod import *
 from System import String
 from System.Collections import *
 from System.Drawing import *
-
-def test(si):
-    best = si
-    best.Rotate = 4
-    return f"cpu turn{best.Rotate}"
     
 
 def CpuStep(client,board,game,rotateList):
@@ -19,8 +14,9 @@ def CpuStep(client,board,game,rotateList):
     giveup = True
     pieceList = [19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0]
     pre_score = -100
-    jkjk = 0
-    
+    len_blocked = 0
+    len_search = 0
+
     if client.IsMyChoice == False:
         return f"not my turn"
     for piece in pieceList:
@@ -79,8 +75,11 @@ def CpuStep(client,board,game,rotateList):
                             if block:
                                 blocked.append(p)
                         score += len(blocked)
+                        search_result = search(game,board,rotateList,si) # maximum pieces search
+                        score += search_result * 0.1
                         if score > pre_score:
-                            jkjk = len(blocked)
+                            len_blocked = len(blocked)
+                            len_search = search_result
                             pre_score = score
                             best = SetInfo(piece,r,pos)
                             success = True
@@ -94,4 +93,46 @@ def CpuStep(client,board,game,rotateList):
         client.IsMyChoice = False
         game.SetPiece(best)
         client.SetPiece(best)
-        return f"PLAYER{game.TurnPlayer}--p:{best.Piece} r:{best.Rotate} x:{best.Cell.X} y:{best.Cell.Y}--TIME:{endTime - startTime} Blocked:{jkjk} Score:{score}"
+        return f"PLAYER{game.TurnPlayer}--p:{best.Piece} r:{best.Rotate} x:{best.Cell.X} y:{best.Cell.Y}--TIME:{endTime - startTime} Blocked:{len_blocked} Score:{score} ?{len_search}?"
+
+def search(game,board,rotateList,sinfo):
+    pieceUsed = game.Players[game.TurnPlayer].PiecesUsed
+    this_board = Board()
+    this_board.Initialize(board.BoardSize)
+    this_board.SetPiece(game.Turn,sinfo)
+    pieceUsed[sinfo.Piece] = True
+
+    for x in range(this_board.BoardSize):
+        for y in range(this_board.BoardSize):
+             this_board.Cell[y,x] = board.Cell[y,x]
+    limit = 0
+    while True:
+        limit += 1
+        if limit > 3:
+            break
+        piece = test(game,this_board,rotateList,pieceUsed)
+        
+        
+    count = 0
+    for x in range(this_board.BoardSize):
+        for y in range(this_board.BoardSize):
+             if this_board.Cell[y,x] == game.Turn and board.Cell[y,x] != game.Turn:
+                count += 1
+    
+    return count
+
+
+def test(game,board,rotateList,pieceUsed):
+    pieceList = [19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0]
+    for piece in pieceList:
+        if pieceUsed[piece]:
+            continue
+        for x in range(board.BoardSize):
+            for y in range(board.BoardSize):
+                pos = Point(x,y)
+                for r in rotateList:
+                    si = SetInfo(piece,r,pos)
+                    if board.CheckPlace(game.Turn,si):
+                        board.SetPiece(game.Turn,si)
+                        pieceUsed[piece] = True
+                        return piece

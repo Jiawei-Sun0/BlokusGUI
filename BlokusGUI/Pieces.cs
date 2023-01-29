@@ -11,7 +11,7 @@ namespace BlokusMod
     /// <summary>
     /// ピースクラス
     /// </summary>
-    class Piece
+    public class Piece
     {
         private List<Point> _cells = new List<Point>();
         private List<Point> _edges = new List<Point>();
