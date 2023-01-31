@@ -57,6 +57,7 @@ def CpuStep(client,board,game,rotateList):
                                     if cx >=0 and cx < board.BoardSize and cy-1 >=0 and cy-1 < board.BoardSize and board.Cell[cy - 1, cx] == board.Cell[cy, cx]:
                                         edgeCount += 1
                                     if edgeCount >= 2:
+
                                         continue
                                     edgeCount = 0
                                     if cx+1 >=0 and cx+1 < board.BoardSize and cy >=0 and cy < board.BoardSize and board.Cell[cy, cx + 1] == board.Cell[cy, cx]:
@@ -76,8 +77,8 @@ def CpuStep(client,board,game,rotateList):
                                 blocked.append(p)
                         score += len(blocked)
                         if game.Players[game.TurnPlayer].PiecesUsed.count(False) < 5: # only active when rest pieces are less than 5
-                            search_result = search(game,board,rotateList,si) # maximum pieces search
-                            score += search_result * 0.1
+                            search_result = search(game,board,rotateList,si) # maximum points search
+                            score += search_result * 0.2
                         if score > pre_score:
                             len_blocked = len(blocked)
                             len_search = search_result
@@ -95,7 +96,7 @@ def CpuStep(client,board,game,rotateList):
         game.SetPiece(best)
         client.SetPiece(best)
         return f"PLAYER{game.TurnPlayer}--p:{best.Piece} r:{best.Rotate} x:{best.Cell.X} y:{best.Cell.Y}--TIME:{endTime - startTime} Blocked:{len_blocked} Score:{score} ::{len_search} rest:{game.Players[game.TurnPlayer].PiecesUsed.count(False)}"
-
+                                                                                                                        
 def search(game,board,rotateList,sinfo):
     pieceUsed = game.Players[game.TurnPlayer].PiecesUsed
     this_board = Board()
@@ -109,7 +110,7 @@ def search(game,board,rotateList,sinfo):
     limit = 0
     while True:
         limit += 1
-        p = test(game,this_board,rotateList,pieceUsed)
+        p = PlacePiece(game,this_board,rotateList,pieceUsed)
         if limit > 3 or p == -1: # reach the limit or have nowhere to place.
             break
         
@@ -123,7 +124,7 @@ def search(game,board,rotateList,sinfo):
     return count
 
 
-def test(game,board,rotateList,pieceUsed):
+def PlacePiece(game,board,rotateList,pieceUsed):
     pieceList = [19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0]
     for piece in pieceList:
         if pieceUsed[piece]:
