@@ -21,13 +21,7 @@ namespace BlokusMod
         /// コンストラクタ
         /// </summary>
         private Cpu() {
-            Debug.WriteLine("cpu init.");
-            var PYTHON_HOME = Environment.ExpandEnvironmentVariables(@"C:\Users\sunjiawei\AppData\Local\Programs\Python\Python38");
-            AddEnvPath(
-              PYTHON_HOME,
-              Path.Combine(@"C:\Users\sunjiawei\source\repos\BlokusGUI\BlokusGUI")
-            );
-            PythonEngine.PythonHome = PYTHON_HOME;
+            
             //Console.WriteLine($"西巴老马：{PythonEngine.PythonPath}");
             //myCPU();
         }
@@ -72,6 +66,14 @@ namespace BlokusMod
 
         public void myCPU()
         {
+            Debug.WriteLine("cpu init.");
+            var PYTHON_HOME = Environment.ExpandEnvironmentVariables(@"C:\Users\sunjiawei\AppData\Local\Programs\Python\Python38");
+            AddEnvPath(
+              PYTHON_HOME,
+              Path.Combine(@"C:\Users\sunjiawei\source\repos\BlokusGUI\BlokusGUI")
+            );
+            PythonEngine.PythonHome = PYTHON_HOME;
+
             var rotateList = Shuffle(Enumerable.Range(0, 8).ToArray());
             using (Py.GIL())
             {

@@ -56,10 +56,11 @@ def CpuStep(client,board,game,rotateList):
                                         edgeCount += 1
                                     if cx >=0 and cx < board.BoardSize and cy-1 >=0 and cy-1 < board.BoardSize and board.Cell[cy - 1, cx] == board.Cell[cy, cx]:
                                         edgeCount += 1
-                                    if edgeCount >= 2:
 
+                                    if edgeCount >= 2:
                                         continue
                                     edgeCount = 0
+                                    
                                     if cx+1 >=0 and cx+1 < board.BoardSize and cy >=0 and cy < board.BoardSize and board.Cell[cy, cx + 1] == board.Cell[cy, cx]:
                                         edgeCount += 1
                                     if cx-1 >=0 and cx-1 < board.BoardSize and cy >=0 and cy < board.BoardSize and board.Cell[cy, cx - 1] == board.Cell[cy, cx]:

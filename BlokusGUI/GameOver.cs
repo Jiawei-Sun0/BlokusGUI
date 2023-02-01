@@ -28,8 +28,8 @@ namespace BlokusMod
                 _board.Records[_board.Records.IndexOf(_board.Records.Max())] = -1;
             }
 
-            SoundPlayer se = new SoundPlayer("../../victory_se.wav");
-            se.Play();
+            //SoundPlayer se = new SoundPlayer("../../victory_se.wav");
+            //se.Play();
             var bmp = new Bitmap(winnerlabel.Width, winnerlabel.Height);
             var g = Graphics.FromImage(bmp);
             g.FillRectangle(_board.PieceBrushes[_board.PlayerRank[0]], 0, 0, bmp.Width, bmp.Height);
