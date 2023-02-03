@@ -40,7 +40,7 @@ namespace BlokusMod
         public void Turn() {
             if (!_client.IsMyChoice) return;
 
-            var pieceList = new int[] { 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0 };
+            var pieceList = new int[] { 15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0 };
             var rotateList = Shuffle(Enumerable.Range(0, 8).ToArray());
 
             foreach (var piece in pieceList) {
@@ -66,7 +66,7 @@ namespace BlokusMod
 
         public void myCPU()
         {
-            Debug.WriteLine("cpu init.");
+            //Debug.WriteLine("cpu init.");
             var PYTHON_HOME = Environment.ExpandEnvironmentVariables(@"C:\Users\sunjiawei\AppData\Local\Programs\Python\Python38");
             AddEnvPath(
               PYTHON_HOME,

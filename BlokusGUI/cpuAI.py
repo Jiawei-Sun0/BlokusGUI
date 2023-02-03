@@ -12,7 +12,7 @@ from System.Drawing import *
 def CpuStep(client,board,game,rotateList):
     startTime = time.time()
     giveup = True
-    pieceList = [19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0]
+    pieceList = [15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0]
     pre_score = -100
     len_blocked = 0
     len_search,search_result = 0,0
@@ -39,6 +39,12 @@ def CpuStep(client,board,game,rotateList):
                         score += 5 * (1 - sqrt(pow(target.X-x,2)+pow(target.Y-y,2)) / (sqrt(2) * board.BoardSize/2) ) # distance from target.
                         score += board.Pieces[piece].GetCellsNum()*1.3 # use big piece first
                         blocked = []
+                        for co in board.Pieces[piece].Corners(r): # how many routes can be created.
+                            cx = x+co.X
+                            cy = y+co.Y
+                            if cx >= 0 and cx < board.BoardSize and cy >= 0 and cy < board.BoardSize \
+                            and board.Cell[cy, cx] == -1:
+                                score += 0.5
                         for point in board.Pieces[piece].Cells(r): # how many routes can be blocked. 
                             p = Point(point.X + x, point.Y + y)
                             edges = [ Point(1, 0), Point(-1, 0), Point(0, 1), Point(0, -1) ]
@@ -51,7 +57,7 @@ def CpuStep(client,board,game,rotateList):
                                 if cx >= 0 and cx < board.BoardSize and cy >= 0 and cy < board.BoardSize \
                                 and board.Cell[cy, cx] != -1 and board.Cell[cy, cx] != game.TurnPlayer:
                                     color = board.Cell[cy, cx]
-                                    edgeCount = 0 # do pieces around the cell is in opposite places?
+                                    edgeCount = 0 # do pieces around the cell are in opposite places?
                                     if cx >=0 and cx < board.BoardSize and cy+1 >=0 and cy+1 < board.BoardSize and board.Cell[cy + 1, cx] == board.Cell[cy, cx]:
                                         edgeCount += 1
                                     if cx >=0 and cx < board.BoardSize and cy-1 >=0 and cy-1 < board.BoardSize and board.Cell[cy - 1, cx] == board.Cell[cy, cx]:
@@ -79,7 +85,7 @@ def CpuStep(client,board,game,rotateList):
                         score += len(blocked)
                         if game.Players[game.TurnPlayer].PiecesUsed.count(False) < 5: # only active when rest pieces are less than 5
                             search_result = search(game,board,rotateList,si) # maximum points search
-                            score += search_result * 0.2
+                            score += search_result * 0.5
                         if score > pre_score:
                             len_blocked = len(blocked)
                             len_search = search_result
@@ -112,9 +118,8 @@ def search(game,board,rotateList,sinfo):
     while True:
         limit += 1
         p = PlacePiece(game,this_board,rotateList,pieceUsed)
-        if limit > 3 or p == -1: # reach the limit or have nowhere to place.
+        if limit > 5 or p == -1: # reach the limit or have nowhere to place.
             break
-        
         
     count = 0
     for x in range(this_board.BoardSize):
@@ -126,7 +131,7 @@ def search(game,board,rotateList,sinfo):
 
 
 def PlacePiece(game,board,rotateList,pieceUsed):
-    pieceList = [19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0]
+    pieceList = [15, 14, 13, 12, 11, 10, 9, 19, 18, 8, 7, 6, 5, 4, 17, 16, 3, 2, 1, 0]
     for piece in pieceList:
         if pieceUsed[piece]:
             continue
