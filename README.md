@@ -1,6 +1,7 @@
-ss2209 Blokus Online
+ss2209 Blokus Online + ss2211 異種言語の連携と思考アルゴリズム
 ---------------------------------
-スキルゼミ2022年度第9回課題 Blokus Online
+スキルゼミ2022年度第9回課題 Blokus Online と
+スキルゼミ2022年度第11回課題 異種言語の連携と思考アルゴリズム
 
 # BlokusGUI プロジェクト
 氏名：孫 嘉偉
@@ -10,6 +11,7 @@ ss2209 Blokus Online
 - Visual C# 2022
 - Windows 11
 - .NET Framework 4.8.04084
+- python 3.8.10
 
 ## 実行方法
 
